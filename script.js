@@ -35,7 +35,6 @@ var currentAnswerIndex = -1;
 function beginQuiz() {
   pEl.remove();
 
-  // Remove existing input element
   inputDiv.innerHTML = '';
 
   var inputRadio1 = document.createElement("input");
