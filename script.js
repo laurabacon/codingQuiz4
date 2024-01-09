@@ -9,6 +9,8 @@ var endBox = document.querySelector("#quiz-end");
 var end = document.querySelector('.end');
 var initialsInput = document.getElementById("initials-input");
 var saveScoreButton = document.getElementById("save-score-button");
+var timerElement = document.getElementById("timer");
+var timeLeft = 30;
 
 var myQuestions = [
   {
@@ -61,6 +63,9 @@ function beginQuiz() {
   h1El.textContent = question;
   var choices = myQuestions[currentQuestionIndex].choices;
   nextChoice(choices);
+
+  updateTimerDisplay();
+  updateTimer();
 }
 
 function nextQuestion() {
@@ -78,6 +83,7 @@ function nextQuestion() {
     h1El.textContent = question;
     var choices = myQuestions[currentAnswerIndex].choices;
     nextChoice(choices);
+    updateTimerDisplay();
   } else {
     displayFinalScore();
   }
@@ -114,6 +120,7 @@ function displayFinalScore() {
 
 saveScoreButton.addEventListener("click", function() {
   var initials = initialsInput.value;
+
   var scores = JSON.parse(localStorage.getItem("scores")) || [];
   var newScore = {
     initials: initials,
@@ -125,3 +132,19 @@ saveScoreButton.addEventListener("click", function() {
 });
 
 startButton.addEventListener("click", beginQuiz);
+
+function updateTimer() {
+  if (timeLeft <= 0) {
+    displayFinalScore();
+  } else {
+    timeLeft--;
+    setTimeout(function() {
+      updateTimerDisplay();
+      updateTimer();
+    }, 1000);
+  }
+}
+
+function updateTimerDisplay() {
+  timerElement.textContent = timeLeft;
+}
